@@ -19,17 +19,14 @@ import { Express } from 'express';
 import { join } from 'path';
 import { Response } from 'express';
 import { diskStorage } from 'multer';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RequireAdmin } from 'src/auth/decorators/roles.decorator';
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @RequireAdmin()
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
